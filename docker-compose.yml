@@ -1,0 +1,58 @@
+version: "3.3"
+
+services:
+
+  kibana:
+    image: kibana:7.3.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+  elasticsearch:
+    image: elasticsearch:7.3.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: single-node
+
+  logstash:
+    image: logstash:7.3.0
+    container_name: logstash
+    ports:
+      - "5044:5044"
+      - "9600:9600" 
+      - "2203:22"
+    volumes:
+      - ./logstash/command-input.conf:/usr/share/logstash/pipeline/command-input.conf
+      - ./logstash/jdbc-input.conf:/usr/share/logstash/pipeline/jdbc-input.conf
+      - ./logstash/output.conf:/usr/share/logstash/pipeline/output.conf
+      - ./logstash/retrieve-data.sh:/usr/bin/retrieve-data.sh
+      - ./logstash/query-locks.sql:/etc/logstash/queries/query-locks.sql
+      - ./logstash/postgresql-42.1.4.jar:/usr/share/logstash/logstash-core/lib/jars/postgresql-42-1-4.jar
+    depends_on:
+      - elasticsearch
+
+  postgresql:
+    image: postgres:11
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "main"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+
+  # beats:
+  #   build: ./docker
+  #   container_name: beats
+  #   ports:
+  #     - "2204:22"
+  #   volumes: 
+  #     - ./docker/filebeat.yml:/etc/filebeat/filebeat.yml
+  #     - ./docker/inputs.yml:/etc/filebeat/inputs.yml
+  #   depends_on:
+  #     - logstash

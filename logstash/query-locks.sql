@@ -1,0 +1,1 @@
+SELECT count(*) AS count_locks FROM pg_locks;
