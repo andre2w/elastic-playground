@@ -47,13 +47,6 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
 
-  # beats:
-  #   build: ./docker
-  #   container_name: beats
-  #   ports:
-  #     - "2204:22"
-  #   volumes: 
-  #     - ./docker/filebeat.yml:/etc/filebeat/filebeat.yml
-  #     - ./docker/inputs.yml:/etc/filebeat/inputs.yml
-  #   depends_on:
-  #     - logstash
+  transfer_app:
+    build: ./transferapp
+    container_name: transferapp
