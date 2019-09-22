@@ -32,6 +32,7 @@ services:
       - ./logstash/filebeat-input.conf:/usr/share/logstash/pipeline/filebeat-input.conf
       - ./logstash/output.conf:/usr/share/logstash/pipeline/output.conf
       - ./logstash/command-filter.conf:/usr/share/logstash/pipeline/command-filter.conf
+      - ./logstash/transferapp-filter.conf:/usr/share/logstash/pipeline/transferapp-filter.conf
       - ./logstash/retrieve-data.sh:/usr/bin/retrieve-data.sh
       - ./logstash/query-locks.sql:/etc/logstash/queries/query-locks.sql
       - ./logstash/postgresql-42.1.4.jar:/usr/share/logstash/logstash-core/lib/jars/postgresql-42-1-4.jar

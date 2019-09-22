@@ -1,0 +1,112 @@
+{
+    "index_patterns": [
+      "transferapp"
+    ],
+    "mappings": {
+      "_meta": {
+        "beat": "transferapp",
+        "version": "7.0.1"
+      },
+      "date_detection": false,
+      "dynamic_templates": [
+        {
+          "labels": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "labels.*"
+          }
+        },
+        {
+          "container.labels": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "container.labels.*"
+          }
+        },
+        {
+          "fields": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "fields.*"
+          }
+        },
+        {
+          "docker.container.labels": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "docker.container.labels.*"
+          }
+        },
+        {
+          "kibana.log.meta": {
+            "mapping": {
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "path_match": "kibana.log.meta.*"
+          }
+        },
+        {
+          "strings_as_keyword": {
+            "mapping": {
+              "ignore_above": 1024,
+              "type": "keyword"
+            },
+            "match_mapping_type": "string"
+          }
+        }
+      ],
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "payment_date": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "amount": {
+          "type": "scaled_float",
+          "scaling_factor": "100"
+        },
+        "message": {
+          "type": "text"
+        },
+        "origin": {
+          "properties": {
+            "body": {
+              "properties": {
+                "sort_code": {
+                  "type": "keyword"
+                },
+                "account": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        },
+        "destination": {
+          "properties": {
+            "body": {
+              "properties": {
+                "sort_code": {
+                  "type": "keyword"
+                },
+                "account": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

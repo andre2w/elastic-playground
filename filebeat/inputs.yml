@@ -1,3 +1,5 @@
   - type: log
     paths:
       - /var/log/transfer/transferapp.log
+    fields:
+      application: transferapp
